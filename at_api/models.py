@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 
 class Episode(models.Model):
@@ -8,20 +9,20 @@ class Episode(models.Model):
     episode_number = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return "{}".format(self.title)
+        return u"{}".format(self.title)
 
 
 class Species(models.Model):
     name = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return "{}".format(self.name)
+        return u"{}".format(self.name)
 
 
 class Character(models.Model):
     name = models.CharField(max_length=80)
     full_name = models.CharField(max_length=120)
-    sex = models.CharField(max_length=30, blank=True)
+    sex = models.CharField(max_length=100, blank=True)
     species = models.ManyToManyField(Species, related_name="characters", blank=True)
     link = models.URLField(blank=True)
     appearance = models.ManyToManyField(Episode, related_name="characters", blank=True)
@@ -29,7 +30,7 @@ class Character(models.Model):
     relatives_many = models.ManyToManyField('self', related_name="characters", blank=True)
 
     def __unicode__(self):
-        return "{}".format(self.name)
+        return u"{}".format(self.name)
 
 
 class Occupation(models.Model):
@@ -37,4 +38,4 @@ class Occupation(models.Model):
     character = models.ForeignKey(Character, related_name="occupations")
 
     def __unicode__(self):
-        return "{}".format(self.title)
+        return u"{}".format(self.title)

@@ -3,7 +3,7 @@ from scrapy.spider import Spider
 from at_scrape_exercise.items import AT_Char_Item, AT_Char_Detail_Item
 import re
 
-from at_api.models import Character, Occupation, Episode
+from at_api.models import Character, Occupation, Episode, Species
 
 
 class AT_Char_Spider(Spider):
@@ -20,16 +20,6 @@ class AT_Char_Spider(Spider):
     def parse(self, response):
         sel = Selector(response)
         data = sel.xpath("(//div[@class='mw-content-ltr'])[3]/table/tr/td/ul/li/a")
-        items = []
-        # for datum in data:
-        #     item = AT_Char_Item()
-        #     x = datum.xpath("text()").extract()
-        #     if "User" not in x[0]:
-        #         item['name'] = x[0]
-        #         item['link'] = datum.xpath("@href").extract()[0]
-        #         items.append(item)
-        # return items
-
         with open('characters.txt', 'a') as f:
             for datum in data:
                 x = datum.xpath("text()").extract()
@@ -41,23 +31,24 @@ class AT_Char_Spider(Spider):
 class AT_Char_Spider_Detail(Spider):
     name = "char_detail"
     allowed_domains = ["adventuretime.wikia.com"]
-    characters = open("characters_test.txt")
+    characters = open("characters.txt")
     start_urls = [
-    #     "http://adventuretime.wikia.com/wiki/Doctor_Princess",
-    #     "http://adventuretime.wikia.com/wiki/Finn",
-    #     "http://adventuretime.wikia.com/wiki/Jay_%26_Bonnie",
-    #     "http://adventuretime.wikia.com/wiki/Booger",
-    #     "http://adventuretime.wikia.com/wiki/Marceline",
-    #     "http://adventuretime.wikia.com/wiki/Breakfast_Princess",
-    #     "http://adventuretime.wikia.com/wiki/Abe_Lincoln",
-        "http://adventuretime.wikia.com/wiki/Ice_King",
-    #     "http://adventuretime.wikia.com/wiki/Ricardio",
-    #     "http://adventuretime.wikia.com/wiki/Mr._Pig",
-    #     "http://adventuretime.wikia.com/wiki/Earl_of_Lemongrab",
-    #     "http://adventuretime.wikia.com/wiki/Princess_Bubblegum",
-    #     "http://adventuretime.wikia.com/wiki/Lich_King",
+        # "http://adventuretime.wikia.com/wiki/Doctor_Princess",
+        # "http://adventuretime.wikia.com/wiki/Finn",
+        # "http://adventuretime.wikia.com/wiki/Jay_%26_Bonnie",
+        # "http://adventuretime.wikia.com/wiki/Booger",
+        # "http://adventuretime.wikia.com/wiki/Marceline",
+        # "http://adventuretime.wikia.com/wiki/Breakfast_Princess",
+        # "http://adventuretime.wikia.com/wiki/Abe_Lincoln",
+        # "http://adventuretime.wikia.com/wiki/Ice_King",
+        # "http://adventuretime.wikia.com/wiki/Ricardio",
+        # "http://adventuretime.wikia.com/wiki/Mr._Pig",
+        # "http://adventuretime.wikia.com/wiki/Earl_of_Lemongrab",
+        # "http://adventuretime.wikia.com/wiki/Princess_Bubblegum",
+        # "http://adventuretime.wikia.com/wiki/Lich_King",
+        # "http://adventuretime.wikia.com/wiki/Greed_Lard",
     ]
-    # start_urls = [url.strip() for url in characters.readlines()]
+    start_urls = [url.strip() for url in characters.readlines()]
 
 
     def parse(self, response):
@@ -65,16 +56,20 @@ class AT_Char_Spider_Detail(Spider):
         sel = Selector(response)
         data = sel.xpath("//table[@class='infobox']")
         # categories = data.xpath("tr[position()>2]/td/b/text()").extract()
-
         name = sel.xpath("//header[@id='WikiaPageHeader']/h1/text()").extract()[0]
-        full_name = data.xpath("normalize-space(tr[td/b/text()='Name']/td[position()>1]/text())").extract()[0]
         c, c_created = Character.objects.get_or_create(name=name)
-        c.full_name = full_name
-        c.save()
-
+        try:
+            full_name = data.xpath("normalize-space(tr[td/b/text()='Name']/td[position()>1]/text())").extract()[0]
+            c.full_name = full_name
+        except IndexError:
+            pass
 
         species_list = data.xpath("tr/td/a[../../td/b/text()='Species']/text()|tr[td/b/text()='Species']/td/text()[normalize-space()]").extract()
         species = [x.strip() for x in species_list]
+        for name in species:
+            s, s_created = Species.objects.get_or_create(name=name)
+            c.species.add(s)
+
         # returns [u'Vampire', u'Demon']
         print "*************SPECIES**********"
         print species
@@ -94,10 +89,11 @@ class AT_Char_Spider_Detail(Spider):
             print "**********END OCCUPATION**************"
         except IndexError:
             pass
-
-        sex = data.xpath("normalize-space(tr[td/b/text()='Sex']/td[position()>1]/text())").extract()[0]
-        print sex
-        c.sex = sex
+        try:
+            sex = data.xpath("normalize-space(tr[td/b/text()='Sex']/td[position()>1]/text())").extract()[0]
+            c.sex = sex
+        except IndexError:
+            pass
 
         # print "************relatives**************"
         # relatives = data.xpath("tr[td/b/text()='Relatives']/td[position()>1]/a/text()").extract()
@@ -107,6 +103,7 @@ class AT_Char_Spider_Detail(Spider):
             c.relatives_many.add(r)
 
         link = response.request.url
+        print link
         c.link = link
         # print "*************appearances*********"
         # This version makes sure that if a minor character is being scraped, it will return an empty list if there's no Episodes appearances section
@@ -118,11 +115,11 @@ class AT_Char_Spider_Detail(Spider):
         for title in appearances:
             e, e_created = Episode.objects.get_or_create(title=title)
             c.appearance.add(e)
-
-        image = data.xpath("tr/td/a[@class='image image-thumbnail']/@href").extract()
-        # print "***********IMAGE********"
-        print image
-
-
+        try:
+            image = data.xpath("tr/td/a[@class='image image-thumbnail']/@href").extract()[0]
+            # print "***********IMAGE********"
+            c.image = image
+        except IndexError:
+            pass
         c.save()
 
