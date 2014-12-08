@@ -1,7 +1,17 @@
 from rest_framework import serializers
 from at_api.models import Character, Species, Occupation, Episode
 
+class SpeciesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Species
 
+class OccupationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Occupation
+
+class EpisodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Episode
 
 class ChildCharacterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +39,8 @@ class CharacterSerializer(serializers.ModelSerializer):
     relatives = serializers.SerializerMethodField('get_relatives')
     occupations = serializers.SerializerMethodField('get_occupations')
     # occupation = serializers.SlugRelatedField(slug_field='title')
-    species = serializers.SerializerMethodField('get_species')
+    # species = serializers.SerializerMethodField('get_species')
+    species = SpeciesSerializer(read_only=True)
     episode = serializers.SerializerMethodField('get_episodes')
 
     class Meta:
@@ -71,14 +82,3 @@ class CharacterSerializer(serializers.ModelSerializer):
 #         fields = ('name', 'full_name', 'sex', 'species', 'link', 'episode', 'image', 'relatives_many')
 
 
-class SpeciesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Species
-
-class OccupationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Occupation
-
-class EpisodeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Episode
