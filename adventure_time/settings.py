@@ -88,4 +88,8 @@ try:
 except ImportError:
     pass
 
-# os.environ['SCRAPY_SETTINGS_MODULE'] = 'at_scrape_exercise.settings'
+REST_FRAMEWORK = {
+    'PAGINATE_BY': 50,
+    'PAGINATE_BY_PARAM': 'page_size', # Allow client to override, using `?page_size=xxx`.
+    'MAX_PAGINATE_BY': 100  # Maximum limit allowed when using `?page_size=xxx`.
+}

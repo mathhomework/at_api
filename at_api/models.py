@@ -25,7 +25,7 @@ class Character(models.Model):
     sex = models.CharField(max_length=100, blank=True)
     species = models.ManyToManyField(Species, related_name="characters", blank=True)
     link = models.URLField(blank=True)
-    appearance = models.ManyToManyField(Episode, related_name="characters", blank=True)
+    episode = models.ManyToManyField(Episode, related_name="characters", blank=True)
     image = models.URLField(blank=True)
     relatives_many = models.ManyToManyField('self', related_name="characters", blank=True)
 
