@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<html>
+<head>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
+
+    {% block head %}
+    {% endblock head %}
+</head>
+<body>
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading" href="{% url 'home' %}">adventure time <span class="black">api</span></a>
+
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected"><a href="{% url 'home' %}" class="pure-menu-link">Home</a></li>
+            <li class="pure-menu-item"><a href="{% url 'about' %}" class="pure-menu-link">About</a></li>
+            <li class="pure-menu-item"><a href="{% url 'documentation' %}" class="pure-menu-link">Documentation</a></li>
+        </ul>
+    </div>
+</div>
+    {% block body %}
+    {% endblock body %}
+</body>
+</html>

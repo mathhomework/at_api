@@ -1,28 +1,17 @@
 from rest_framework import serializers
 from at_api.models import Character, Species, Occupation, Episode
 
-class SpeciesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Species
-
-class OccupationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Occupation
-
-class EpisodeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Episode
 
 class ChildCharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
-        exclude = ('full_name', 'sex', 'link', 'image', 'species', 'episode', 'relatives_many')
+        exclude = ('full_name', 'sex', 'link', 'image', 'species', 'episode', 'relatives_many', 'occupation')
 
 
 class ChildOccupationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occupation
-        fields = ('title',)
+        fields = ('id', 'title',)
 
 class ChildSpeciesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,49 +25,89 @@ class ChildEpisodeSerializer(serializers.ModelSerializer):
 
 
 class CharacterSerializer(serializers.ModelSerializer):
-    relatives = serializers.SerializerMethodField('get_relatives')
-    occupations = serializers.SerializerMethodField('get_occupations')
+    relatives_many = serializers.SerializerMethodField('get_the_relatives')
+    occupations = serializers.SerializerMethodField('get_the_occupations')
     # occupation = serializers.SlugRelatedField(slug_field='title')
-    # species = serializers.SerializerMethodField('get_species')
-    species = SpeciesSerializer(read_only=True)
-    episode = serializers.SerializerMethodField('get_episodes')
+    species = serializers.SerializerMethodField('get_the_species')
+    # species = SpeciesSerializer(read_only=True) don't use this... it will screw things up.
+    episode = serializers.SerializerMethodField('get_the_episodes')
 
     class Meta:
         model = Character
-        exclude = ('relatives_many',)
+        # exclude = ('relatives_many', 'episode', 'occupation', 'relatives')
+        fields = ('id', 'name', 'full_name', 'sex', 'link', 'image',  'episode', 'species', 'relatives_many','occupations',)
 
-    def get_relatives(self, character):
+    def get_the_relatives(self, character):
         qs = character.relatives_many.all()
+        print qs
         serializer = ChildCharacterSerializer(instance=qs,
-                                              many=True, context=self.context)
+                                              many=True,
+                                              context=self.context)
         return serializer.data
 
-    def get_occupations(self, character):
-        qs = Occupation.objects.filter(character=character)
+    def get_the_occupations(self, characters):
+        qs = Occupation.objects.filter(characters=characters)
         serializer = ChildOccupationSerializer(instance=qs,
                                           many=True,
                                           context=self.context)
         return serializer.data
 
-    def get_species(self, character):
+    def get_the_species(self, character):
         qs = character.species.all()
         serializer = ChildSpeciesSerializer(instance=qs,
                                           many=True,
                                           context=self.context)
         return serializer.data
 
-    def get_episodes(self, character):
+    def get_the_episodes(self, character):
         qs = character.episode.all()
         serializer = ChildEpisodeSerializer(instance=qs,
                                           many=True,
                                           context=self.context)
         return serializer.data
 
-# class CharacterSerializer(serializers.ModelSerializer):
-#     relatives_many = ChildCharacterSerializer()
-#
+class SpeciesSerializer(serializers.ModelSerializer):
+    characters = serializers.SerializerMethodField('get_the_characters')
+
+    class Meta:
+        model = Species
+        fields = ('id', 'name', 'characters')
+
+    def get_the_characters(self, species):
+        qs = species.characters.all()
+        print qs
+        serializer = ChildCharacterSerializer(instance=qs,
+                                              many=True,
+                                              context=self.context)
+        return serializer.data
+
+# the below worked at one point... until i updated the character model
+# class SpeciesSerializer(serializers.HyperlinkedModelSerializer):
+#     character = ChildCharacterSerializer(many=True, read_only=True)
+#     print character
 #     class Meta:
-#         model = Character
-#         fields = ('name', 'full_name', 'sex', 'species', 'link', 'episode', 'image', 'relatives_many')
+#         model = Species
+#         fields = ('name', 'character')
 
 
+
+class OccupationSerializer(serializers.ModelSerializer):
+    characters = serializers.SerializerMethodField('get_the_characters')
+
+    class Meta:
+        model = Occupation
+        fields = ('id', 'title', 'characters')
+
+    def get_the_characters(self, occupation):
+        qs = occupation.characters.all()
+        print qs
+        serializer = ChildCharacterSerializer(instance=qs,
+                                              many=True,
+                                              context=self.context)
+        return serializer.data
+
+
+
+class EpisodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Episode

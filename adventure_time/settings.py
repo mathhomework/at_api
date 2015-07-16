@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from __future__ import absolute_import
 import os
+import djcelery
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -30,15 +33,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django_filters',
     'rest_framework',
     'at_api',
-    # 'rest_framework_swagger',
+    'adventure_time',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
+    'kombu.transport.django',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -93,7 +99,10 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 50,
     'PAGINATE_BY_PARAM': 'page_size', # Allow client to override, using `?page_size=xxx`.
     'MAX_PAGINATE_BY': 100,  # Maximum limit allowed when using `?page_size=xxx`.
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.SearchFilter',),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.DjangoFilterBackend'
+    ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
@@ -102,8 +111,27 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '1000/day',
+        'anon': '1500/day',
         'user': '10000/day'
-    }
+    },
+
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+
 
 }
+
+
+
+
+djcelery.setup_loader()
+BROKER_URL = "amqp://andrew:hotdog@localhost:5672/myvhost"
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'US/Pacific'
+
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERY_BEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'

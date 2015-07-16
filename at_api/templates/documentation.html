@@ -1,0 +1,381 @@
+{% extends 'base_template.html' %}
+{% load staticfiles %}
+<head>
+{% block head %}
+    <link href="{% static 'css/documentation.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+</head>
+<body>
+{% block body %}
+
+{#<div class="splash-container">#}
+{#    <div class="splash">#}
+{#        <p class="splash-top">Welcome to the</p>#}
+{#        <h1 class="splash-head">Adventure Time API</h1>#}
+{#    </div>#}
+{##}
+{#</div>#}
+<div id="documentation-wrapper">
+    <div class="content">
+        <h1>Documentation</h1>
+        <p>This RESTful API is focused around Adventure Time's Characters and Episodes.</p>
+
+        <h2>Authentication</h2>
+        <p>No authentication is required for use. That being said, to prevent too many requests to handle, each user is throttled at a maximum of 1500 requests per day.</p>
+
+        <h2>Characters</h2>
+        <p>Characters contain the bulkiest of all the information</p>
+        <h4>Sample Request</h4>
+        <p class="code-wrapper-top"> GET http://127.0.0.1:8000/api/v1/characters/45/</p>
+        <pre class="code-wrapper scrollable">
+            <code class="code">
+{
+    id: 45,
+    name: "Ricardio",
+    full_name: "Ricardio the Heart Guy",
+    sex: "Male",
+    link: "http://adventuretime.wikia.com/wiki/Ricardio",
+    image: "http://img3.wikia.nocookie.net/__cb20120908054951/adventuretimewithfinnandjake/images/b/bb/S4ricardio.png",
+    episode: [
+        {
+            id: 10,
+            title: "Ricardio the Heart Guy"
+        },
+        {
+            id: 11,
+            title: "Lady & Peebles"
+        },
+        {
+            id: 12,
+            title: "All the Little People"
+        }
+    ],
+    species: [
+        {
+            id: 11,
+            name: "Wizard"
+        },
+        {
+            id: 12,
+            name: "heart"
+        }
+    ],
+    relatives_many: [
+
+    ],
+    occupations: [
+
+    ]
+}
+            </code>
+        </pre>
+        <h3>Fields</h3>
+        <table class="fields-table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for key, value in characters.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Species</h2>
+        <p>Species refers to a character's species. Some species may have many characters associated with it.</p>
+        <h4>Sample Request</h4>
+        <p class="code-wrapper-top">GET http://127.0.0.1:8000/api/v1/species/1/</p>
+        <pre class="code-wrapper scrollable">
+            <code class="code">
+{
+    "id": 1,
+    "name": "Humanoid",
+    "characters": [
+        {
+            "id": 46,
+            "name": "Doctor Princess"
+        }
+    ]
+}
+            </code>
+        </pre>
+        <table class="fields-table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in species.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Occupations</h2>
+        <p>Occupations may refer to a character's current or previous occupation.</p>
+        <h4>Sample Request</h4>
+        <p class="code-wrapper-top">GET http://127.0.0.1:8000/api/v1/occupations/1/</p>
+        <pre class="code-wrapper scrollable">
+            <code class="code">
+{
+    "id": 1,
+    "title": "Doctor M.D",
+    "characters": [
+        {
+            "id": 46,
+            "name": "Doctor Princess"
+        }
+    ]
+}
+            </code>
+        </pre>
+        <table class="fields-table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in occupations.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Episodes</h2>
+        <p>Episode information!!! </p>
+        <table class="fields-table">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in episodes.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Search</h2>
+        <p>Each resource has the ability for the optional search parameter by attaching /?search={query} to the end of a resource instead
+        of /{id}. </p>
+        <h4>Sample Request</h4>
+        <p class="code-wrapper-top">GET http://127.0.0.1:8000/api/v1/characters/?search=jake</p>
+        <pre class="code-wrapper scrollable">
+            <code class="code">
+{
+    count: 2,
+    next: null,
+    previous: null,
+    results: [
+        {
+            id: 50,
+            name: "Jake",
+            full_name: "",
+            sex: "",
+            link: "",
+            image: "",
+            episode: [
+
+            ],
+            species: [
+
+            ],
+            relatives_many: [
+                {
+                    id: 49,
+                    name: "Jake Jr."
+                }
+            ],
+            occupations: [
+
+            ]
+        },
+        {
+            id: 49,
+            name: "Jake Jr.",
+            full_name: "Jake Jr.",
+            sex: "Female",
+            link: "http://adventuretime.wikia.com/wiki/Jake_Jr.",
+            image: "http://img4.wikia.nocookie.net/__cb20140326192238/adventuretimewithfinnandjake/images/a/aa/Jakejrnobackground_clipped_rev_1.png",
+            episode: [
+                {
+                    id: 3,
+                    title: "Jake the Dad"
+                },
+                {
+                    id: 6,
+                    title: "Time Sandwich"
+                },
+                {
+                    id: 7,
+                    title: "Apple Wedding"
+                },
+                {
+                    id: 8,
+                    title: "Ocarina"
+                },
+                {
+                    id: 59,
+                    title: "Another Five More Short Graybles"
+                },
+                {
+                    id: 128,
+                    title: "One Last Job"
+                }
+            ],
+            species: [
+                {
+                    id: 6,
+                    name: "1/2"
+                },
+                {
+                    id: 7,
+                    name: "Rainicorn"
+                },
+                {
+                    id: 8,
+                    name: "1/4"
+                },
+                {
+                    id: 9,
+                    name: "Dog"
+                },
+                {
+                    id: 10,
+                    name: "Shape-shifter"
+                }
+            ],
+            relatives_many: [
+                {
+                    id: 50,
+                    name: "Jake"
+                },
+                {
+                    id: 51,
+                    name: "Lady Rainicorn"
+                },
+                {
+                    id: 52,
+                    name: "Joshua"
+                },
+                {
+                    id: 53,
+                    name: "Shape-shifter"
+                },
+                {
+                    id: 54,
+                    name: "Margaret"
+                },
+                {
+                    id: 55,
+                    name: "Bob Rainicorn"
+                },
+                {
+                    id: 56,
+                    name: "Ethel Rainicorn"
+                },
+                {
+                    id: 57,
+                    name: "Jermaine"
+                },
+                {
+                    id: 58,
+                    name: "Finn"
+                },
+                {
+                    id: 59,
+                    name: "Ignition Point"
+                },
+                {
+                    id: 60,
+                    name: "Charlie"
+                },
+                {
+                    id: 61,
+                    name: "Kim Kil Whan"
+                },
+                {
+                    id: 62,
+                    name: "Viola"
+                },
+                {
+                    id: 63,
+                    name: "T.V."
+                },
+                {
+                    id: 64,
+                    name: "Kim Kil Whan's Wife"
+                },
+                {
+                    id: 65,
+                    name: "Kim Kil Whan's Daughter"
+                },
+                {
+                    id: 66,
+                    name: "Jay & Bonnie"
+                },
+                {
+                    id: 67,
+                    name: "Pillow World"
+                },
+                {
+                    id: 68,
+                    name: "Roselinen"
+                }
+            ],
+            occupations: [
+
+            ]
+        }
+    ]
+}
+            </code>
+        </pre>
+        <table class="fields-table">
+            <thead>
+                <tr>
+                    <th>Resource</th>
+                    <th>Search Query Field</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in search.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{#<div class="pure-g">#}
+{#    <div class="pure-u-1/5">#}
+{#    </div>#}
+{#    <div class="pure-u-md-1-3">#}
+{#        <p>Adventure Time's Universe of Character Data all in one place</p>#}
+{#    </div>#}
+{#</div>#}
+{% endblock body %}
+</body>

@@ -1,14 +1,20 @@
+from scrapy.crawler import CrawlerProcess
 from scrapy.selector import Selector
-from scrapy.spider import Spider
-from at_scrape_exercise.items import AT_Char_Item, AT_Char_Detail_Item
+from scrapy.spiders import Spider
 import re
 
 from at_api.models import Character, Occupation, Episode, Species
+import django
+django.setup()
 
 
 class AT_Char_Spider(Spider):
     name = "char"
     allowed_domains = ["adventuretime.wikia.com"]
+    # Not necessary, but f you want this super automated in the future, and you need a scraper for these start_urls,
+    # you could make another scraper that adds to a global variable that stores next page links coming out of each page
+    # for something more complicated, try selenium?
+    # http://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page
     start_urls = [
         "http://adventuretime.wikia.com/wiki/Category:Characters",
         "http://adventuretime.wikia.com/wiki/Category:Characters?pagefrom=Donny+%28character%29#mw-pages",
@@ -35,6 +41,7 @@ class AT_Char_Spider_Detail(Spider):
     start_urls = [
         # "http://adventuretime.wikia.com/wiki/Doctor_Princess",
         # "http://adventuretime.wikia.com/wiki/Finn",
+        # "http://adventuretime.wikia.com/wiki/T.V.",
         # "http://adventuretime.wikia.com/wiki/Jay_%26_Bonnie",
         # "http://adventuretime.wikia.com/wiki/Booger",
         # "http://adventuretime.wikia.com/wiki/Marceline",
@@ -47,59 +54,71 @@ class AT_Char_Spider_Detail(Spider):
         # "http://adventuretime.wikia.com/wiki/Princess_Bubblegum",
         # "http://adventuretime.wikia.com/wiki/Lich_King",
         # "http://adventuretime.wikia.com/wiki/Greed_Lard",
+        "http://adventuretime.wikia.com/wiki/Jake_Jr.",
     ]
-    start_urls = [url.strip() for url in characters.readlines()]
+    # start_urls = [url.strip() for url in characters.readlines()]
 
 
     def parse(self, response):
-
+        # Notes: Species should be updated to contain notes. body_appearances for Episode relation doesn't work properly
         sel = Selector(response)
         data = sel.xpath("//table[@class='infobox']")
         # categories = data.xpath("tr[position()>2]/td/b/text()").extract()
-        name = sel.xpath("//header[@id='WikiaPageHeader']/h1/text()").extract()[0]
+        name = sel.xpath("//header[@id='WikiaPageHeader']//h1/text()").extract()[0]
+        print name
         c, c_created = Character.objects.get_or_create(name=name)
         try:
             full_name = data.xpath("normalize-space(tr[td/b/text()='Name']/td[position()>1]/text())").extract()[0]
+            print full_name
             c.full_name = full_name
         except IndexError:
             pass
-
+        print "*************SPECIES************"
         species_list = data.xpath("tr/td/a[../../td/b/text()='Species']/text()|tr[td/b/text()='Species']/td/text()[normalize-space()]").extract()
         species = [x.strip() for x in species_list]
         for name in species:
+            print name
+
             s, s_created = Species.objects.get_or_create(name=name)
+
             c.species.add(s)
+            print c.species.all()
 
         # returns [u'Vampire', u'Demon']
-        print "*************SPECIES**********"
-        print species
+        print "*************END SPECIES**********"
         # the occupation below does not take into account a tags... so Marceline's Henchmen would just be something like 's henchmen
         # occupation = data.xpath("tr[td/b[contains(.,'Occupation')]]/td[position()>1]/text()").extract()
         # occupation = data.xpath("tr[td/b[contains(.,'Occupation')]]/td[position()>1]/descendant::text()").extract()
         # this is more specific than the below because it does not matter where the extra space after occupation is
         # occupation = data.xpath("tr[td/b/text()='Occupation ']/td[position()>1]/text()").extract()
         try:
-            occupation = data.xpath("tr[td/b[contains(.,'Occupation')]]/td[position()>1]").extract()[0]
-
+            # BTW currently occupation does not take into account the episode in which character is associated
+            occupation_html = data.xpath("tr[td/b[contains(.,'Occupation')]]/td[position()>1]").extract()[0]
+            occu = occupation_html.split("<br>")
             print "***********OCCUPATION******************"
-            for x in str(occupation).split("<br>"):
-                title = re.sub('<[^>]*>', '', re.sub('\(.*?\)', '', x)).strip().rstrip(",")
-                job, job_created = Occupation.objects.get_or_create(title=title, character=c)
+            for x in occu:
+                # replace the re.sub below with just x if you want to include all the (formerly in "Henchman") etc.
+                title = re.sub('<[^>]*>', '', re.sub('\(.*?\)', '', x)).strip()
+                print title
+                job, job_created = Occupation.objects.get_or_create(title=title)
+                c.occupation.add(job)
 
             print "**********END OCCUPATION**************"
         except IndexError:
             pass
         try:
             sex = data.xpath("normalize-space(tr[td/b/text()='Sex']/td[position()>1]/text())").extract()[0]
+            print sex
             c.sex = sex
         except IndexError:
             pass
 
-        # print "************relatives**************"
+        print "************relatives**************"
         # relatives = data.xpath("tr[td/b/text()='Relatives']/td[position()>1]/a/text()").extract()
         relatives = data.xpath("tr[td/b/text()='Relatives']/td[position()>1]/descendant::a/text()[not(ancestor::small)]").extract()
         for relative in relatives:
             r, r_created = Character.objects.get_or_create(name=relative)
+            print r
             c.relatives_many.add(r)
 
         link = response.request.url
@@ -110,11 +129,17 @@ class AT_Char_Spider_Detail(Spider):
         body_appearances = sel.xpath("//div[@id='mw-content-text']/*[self::h3 or self::h2][span[@id='Major_appearances' or @id='Minor_appearances' or @id='Episode_appearances']]/following-sibling::*[1]/li/a/text()").extract()
         sidebar_introduced = data.xpath("normalize-space(tr[td/b/text()='Introduced in']/td[position()>1]/a/text())").extract()
         appearances = body_appearances or sidebar_introduced
+
+        print "BODY_APPEAR"
+        print body_appearances
+        print "SIDEBAR APPEAR"
+        print sidebar_introduced
+        print "FINAL OUTPUT"
         print appearances
 
         for title in appearances:
             e, e_created = Episode.objects.get_or_create(title=title)
-            c.appearance.add(e)
+            c.episode.add(e)
         try:
             image = data.xpath("tr/td/a[@class='image image-thumbnail']/@href").extract()[0]
             # print "***********IMAGE********"
@@ -122,4 +147,10 @@ class AT_Char_Spider_Detail(Spider):
         except IndexError:
             pass
         c.save()
+
+
+def char_detail():
+    process = CrawlerProcess()
+    process.crawl(AT_Char_Spider_Detail)
+    process.start()
 

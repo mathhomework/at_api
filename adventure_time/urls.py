@@ -14,12 +14,11 @@ router.register(r'episodes', EpisodeViewSet, base_name='episodes')
 
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'adventure_time.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-    url(r'^api/', include(router.urls)),
-    # url(r'^docs/', include('rest_framework_swagger.urls')),
-    url(r'^', 'at_api.views.home', name='home'),
+
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^$', 'at_api.views.home', name='home'),
+    url(r'^about/', 'at_api.views.about', name='about'),
+    url(r'^documentation/', 'at_api.views.documentation', name='documentation'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
 )

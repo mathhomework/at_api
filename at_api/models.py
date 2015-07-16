@@ -13,29 +13,32 @@ class Episode(models.Model):
 
 
 class Species(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __unicode__(self):
-        return u"{}".format(self.name)
-
-
-class Character(models.Model):
-    name = models.CharField(max_length=80)
-    full_name = models.CharField(max_length=120)
-    sex = models.CharField(max_length=100, blank=True)
-    species = models.ManyToManyField(Species, related_name="characters", blank=True)
-    link = models.URLField(blank=True)
-    episode = models.ManyToManyField(Episode, related_name="characters", blank=True)
-    image = models.URLField(blank=True)
-    relatives_many = models.ManyToManyField('self', related_name="characters", blank=True)
+    name = models.CharField(max_length=120)
+    note = models.CharField(max_length=120, blank=True)
 
     def __unicode__(self):
         return u"{}".format(self.name)
 
 
 class Occupation(models.Model):
-    title = models.CharField(max_length=200)
-    character = models.ForeignKey(Character, related_name="occupations")
+    title = models.CharField(max_length=120)
+    episode = models.ManyToManyField(Episode, related_name="occupations", blank=True)
 
     def __unicode__(self):
         return u"{}".format(self.title)
+
+
+class Character(models.Model):
+    name = models.CharField(max_length=80)
+    full_name = models.CharField(max_length=120)
+    sex = models.CharField(max_length=100, blank=True)
+    link = models.URLField(blank=True)
+    image = models.URLField(blank=True)
+    episode = models.ManyToManyField(Episode, related_name="characters", blank=True)
+    species = models.ManyToManyField(Species, related_name="characters", blank=True)
+    relatives_many = models.ManyToManyField('self', related_name="characters", blank=True)
+    occupation = models.ManyToManyField(Occupation, related_name="characters", blank=True)
+
+    def __unicode__(self):
+        return u"{}".format(self.name)
+

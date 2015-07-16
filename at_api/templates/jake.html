@@ -1,0 +1,98 @@
+{% extends 'base_template.html' %}
+{% load staticfiles %}
+<head>
+{% block head %}
+    <link href="{% static 'css/jake.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+</head>
+<body>
+{% block body %}
+
+<div class="splash-container">
+    <div class="splash">
+        <span class="splash-top">Welcome to the...</span>
+        <h1 class="splash-head">Adventure Time API</h1>
+    </div>
+
+</div>
+<div class="content-wrapper">
+    <div class="content">
+        This is an API created for the television show, Adventure Time.
+        <p class="code-wrapper-top" >Response for Abraham Lincoln http://127.0.0.1:8000/api/v1/characters/47/?format=json</p>
+        <pre class="code-wrapper scrollable">
+
+            <code class="code ">
+{
+    "id": 47,
+    "name": "Abraham Lincoln",
+    "full_name": "Abraham Lincoln",
+    "sex": "Male",
+    "link": "http://adventuretime.wikia.com/wiki/Abe_Lincoln",
+    "image": "http://img3.wikia.nocookie.net/__cb20120725234200/adventuretimewithfinnandjake/images/a/a4/Abraham_Lincoln.png",
+    "episode": [
+        {
+            "id": 2,
+            "title": "Animated short"
+        },
+        {
+            "id": 39,
+            "title": "A Glitch is a Glitch"
+        },
+        {
+            "id": 50,
+            "title": "Orgalorg"
+        },
+        {
+            "id": 72,
+            "title": "Sons of Mars"
+        },
+        {
+            "id": 73,
+            "title": "Business Time"
+        },
+        {
+            "id": 74,
+            "title": "Crystals Have Power"
+        },
+        {
+            "id": 75,
+            "title": "Return to the Nightosphere"
+        },
+        {
+            "id": 76,
+            "title": "Box Prince"
+        }
+    ],
+    "species": [
+        {
+            "id": 4,
+            "name": "Human"
+        }
+    ],
+    "relatives_many": [],
+    "occupations": [
+        {
+            "id": 10,
+            "title": "Former King of Mars,"
+        },
+        {
+            "id": 11,
+            "title": "Former President of the United States"
+        }
+    ]
+}
+            </code>
+        </pre>
+    </div>
+</div>
+
+{#<div class="pure-g">#}
+{#    <div class="pure-u-1/5">#}
+{#    </div>#}
+{#    <div class="pure-u-md-1-3">#}
+{#        <p>Adventure Time's Universe of Character Data all in one place</p>#}
+{#    </div>#}
+{#</div>#}
+{% endblock body %}
+</body>

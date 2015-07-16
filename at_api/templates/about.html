@@ -1,0 +1,25 @@
+{% extends 'base_template.html' %}
+{% load staticfiles %}
+{% block head %}
+    <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="content lsp">
+
+        <h1>About this API</h1>
+        <p>This API is a side project that was finally put online in July 2015. It is a work in progress.</p>
+        <h2>Oh my Glob!! What the stuff are you doing?</h2>
+        <p>Making an API for my favorite show, Adventure Time. heheheheheh! The data was collected from the <a href="https://adventuretime.wikia.com">Adventure Time Wikia Page</a> using the
+        Python scraper, Scrapy. Scheduling for collecting new data that comes in with each new episode is done through Celery.
+            Everything is packaged together into this lumpy lil web app through Django and Django Rest Framework.
+            The rest of the details can be seen on our
+            <a href="https://github.com/mathhomework/at_api">Github page</a>!
+        </p>
+        <h2>More Questions?</h2>
+        <p>If you have any questions about this API, advice on how I can improve this API, or requests for additional data fields,
+         totally send me a message! My email is andrewshum@alumni.ucsd.edu</p>
+
+
+
+    </div>
+{% endblock %}
