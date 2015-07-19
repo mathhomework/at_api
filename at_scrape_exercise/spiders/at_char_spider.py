@@ -47,7 +47,7 @@ class AT_Char_Spider_Detail(Spider):
         # "http://adventuretime.wikia.com/wiki/Marceline",
         # "http://adventuretime.wikia.com/wiki/Breakfast_Princess",
         # "http://adventuretime.wikia.com/wiki/Abe_Lincoln",
-        "http://adventuretime.wikia.com/wiki/Ice_King",
+        # "http://adventuretime.wikia.com/wiki/Ice_King",
         # "http://adventuretime.wikia.com/wiki/Ricardio",
         # "http://adventuretime.wikia.com/wiki/Mr._Pig",
         # "http://adventuretime.wikia.com/wiki/Earl_of_Lemongrab",
