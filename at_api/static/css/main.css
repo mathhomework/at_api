@@ -115,7 +115,7 @@ p{
 
 }
 .code-wrapper{
-    background-color: #F1F3F5;
+    background-color: white;
     padding: 0 1em;
     margin-top: 0;
     font-family: Consolas, Monaco, "DejaVu Sans Mono", monospace;
@@ -130,7 +130,7 @@ p{
 
 #documentation-wrapper{
     padding-top: 1em;
-    background: white;
+    background: #FED6C4;
 }
 
 
