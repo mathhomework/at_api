@@ -1,6 +1,6 @@
 from scrapy import Spider, Selector
 
-from at_api.models import Episode
+from at_api.models import Episode, Character
 import django
 from datetime import date
 django.setup()
@@ -55,16 +55,29 @@ class AT_Episode_Detail_Spider(Spider):
         production_code = data.xpath("normalize-space(tr[3]/td/text())").extract()[0]
         air_date = data.xpath("normalize-space(tr[4]/td/text())").extract()[0]
         air_date_utc = convert_to_utc(air_date)
+        e, e_created = Episode.objects.get_or_create(title=title,
+                                                     season_id=season_id,
+                                                     episode_id=episode_id,
+                                                     title_card=title_card,
+                                                     production_code=production_code,
+                                                     air_date=air_date,
+                                                     air_date_utc=air_date_utc)
+
+
         # Note for characters. Towards the end, there is /a[1].The [1] is there because I only want the first link.
         # Sometimes something like Hunson Abadeer (name not revealed until "Return to the Nightosphere") will appear.
         # Both Hunson Abadeer and Return ... will be a tags, but Return is obviously not a character.
         characters = sel.xpath("//div[@id='mw-content-text']/*[self::h3 or self::h2][span[@id='Major_characters' or @id='Minor_characters']]/following-sibling::*[1]/li/a[1]/text() | "
                                "//div[@id='mw-content-text']/*[self::h3 or self::h2][span[@id='Major_characters' or @id='Minor_characters']]/following-sibling::*[1]/li/ul/li/a[1]/text()").extract()
-
+        for char in characters:
+            c, c_created = Character.objects.get_or_create(name=char)
+            e.characters.add(c)
         print title_card
         print production_code
         print air_date
         print air_date_utc
         print characters
+
+
 
 
