@@ -6,6 +6,7 @@ from at_api.models import Character, Species, Occupation, Episode
 
 class SpeciesFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(name="name", lookup_type=("icontains"))
+
     class Meta:
         model = Species
         fields = ['name']

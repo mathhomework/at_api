@@ -5,7 +5,7 @@ from at_api.models import Character, Species, Occupation, Episode
 class ChildCharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
-        exclude = ('full_name', 'sex', 'link', 'image', 'species', 'episode', 'relatives_many', 'occupation')
+        exclude = ('full_name', 'sex', 'link', 'image', 'species', 'episode', 'relatives_many', 'occupation', 'created', 'modified')
 
 
 class ChildOccupationSerializer(serializers.ModelSerializer):
@@ -109,5 +109,18 @@ class OccupationSerializer(serializers.ModelSerializer):
 
 
 class EpisodeSerializer(serializers.ModelSerializer):
+    characters = serializers.SerializerMethodField('get_the_characters')
+
     class Meta:
         model = Episode
+        fields = ('id', 'title', 'season_id', 'episode_id', 'title_card', 'production_code', 'air_date', 'air_date_utc',
+                  'created', 'modified', 'characters')
+
+    def get_the_characters(self, episode):
+        qs = episode.characters.all()
+        print qs
+        serializer = ChildCharacterSerializer(instance=qs,
+                                              many=True,
+                                              context=self.context)
+        return serializer.data
+

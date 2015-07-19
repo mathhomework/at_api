@@ -23,7 +23,6 @@ def convert_to_utc(_str):
         }
         date_list = _str.split(" ")
         return date(int(date_list[2]), months[date_list[0]], int(date_list[1][:-1]))
-        # return "{0}-{1}-{2}".format(date_list[2], months[date_list[0]], date_list[1][:-1])
 
 
 class AT_Episode_Detail_Spider(Spider):
@@ -37,6 +36,7 @@ class AT_Episode_Detail_Spider(Spider):
         "http://adventuretime.wikia.com/wiki/James_(episode)",
         "http://adventuretime.wikia.com/wiki/Another_Five_More_Short_Graybles",
         "http://adventuretime.wikia.com/wiki/It_Came_from_the_Nightosphere",
+        "http://adventuretime.wikia.com/wiki/Wizards_Only,_Fools",
     ]
     # start_urls = [url.strip() for url in characters.readlines()]
 
@@ -63,7 +63,6 @@ class AT_Episode_Detail_Spider(Spider):
                                                      air_date=air_date,
                                                      air_date_utc=air_date_utc)
 
-
         # Note for characters. Towards the end, there is /a[1].The [1] is there because I only want the first link.
         # Sometimes something like Hunson Abadeer (name not revealed until "Return to the Nightosphere") will appear.
         # Both Hunson Abadeer and Return ... will be a tags, but Return is obviously not a character.
@@ -77,7 +76,3 @@ class AT_Episode_Detail_Spider(Spider):
         print air_date
         print air_date_utc
         print characters
-
-
-
-
