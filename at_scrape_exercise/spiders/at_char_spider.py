@@ -40,21 +40,21 @@ class AT_Char_Spider_Detail(Spider):
     characters = open("characters.txt")
     start_urls = [
         # "http://adventuretime.wikia.com/wiki/Doctor_Princess",
-        # "http://adventuretime.wikia.com/wiki/Finn",
+        "http://adventuretime.wikia.com/wiki/Finn",
         # "http://adventuretime.wikia.com/wiki/T.V.",
         # "http://adventuretime.wikia.com/wiki/Jay_%26_Bonnie",
         # "http://adventuretime.wikia.com/wiki/Booger",
         # "http://adventuretime.wikia.com/wiki/Marceline",
         # "http://adventuretime.wikia.com/wiki/Breakfast_Princess",
         # "http://adventuretime.wikia.com/wiki/Abe_Lincoln",
-        # "http://adventuretime.wikia.com/wiki/Ice_King",
+        "http://adventuretime.wikia.com/wiki/Ice_King",
         # "http://adventuretime.wikia.com/wiki/Ricardio",
         # "http://adventuretime.wikia.com/wiki/Mr._Pig",
         # "http://adventuretime.wikia.com/wiki/Earl_of_Lemongrab",
         # "http://adventuretime.wikia.com/wiki/Princess_Bubblegum",
         # "http://adventuretime.wikia.com/wiki/Lich_King",
         # "http://adventuretime.wikia.com/wiki/Greed_Lard",
-        "http://adventuretime.wikia.com/wiki/Jake_Jr.",
+        # "http://adventuretime.wikia.com/wiki/Jake_Jr.",
     ]
     # start_urls = [url.strip() for url in characters.readlines()]
 
@@ -74,8 +74,28 @@ class AT_Char_Spider_Detail(Spider):
         except IndexError:
             pass
         print "*************SPECIES************"
-        species_list = data.xpath("tr/td/a[../../td/b/text()='Species']/text()|tr[td/b/text()='Species']/td/text()[normalize-space()]").extract()
-        species = [x.strip() for x in species_list]
+        # the species_ list below will split 1/4 Rainicorn (Rainicorn is <a>) into 1/4 and Rainicorn
+        # species_list = data.xpath("tr/td/a[../../td/b/text()='Species']/text()|tr[td/b/text()='Species']/td/text()[normalize-space()]").extract()
+        # species = [x.strip() for x in species_list]
+
+        # The below will have to do for now... since it does combine 1/4 Rainicorn into one species for Jake. Jr.
+        # However, Ice King's Human-turned-Wizard becomes Human -turned- Wizard.
+        # Ultimately... I think it can be solved by writing better xpath, but I can't find a good solution right now.
+        # The current parsing of the xpath generated list isn't too good either... much concatenation
+        species_list = data.xpath("tr/td/a[../../td/b/text()='Species']/text()|tr[td/b/text()='Species']/td/text()|//br").extract()
+        species = []
+        holder = ""
+        for thing in species_list:
+            if thing == "<br>":
+                if holder != "":
+                    species.append(holder.strip())
+                holder = ""
+            else:
+                space = " "
+                if holder == "":
+                    space = ""
+                holder += thing + space
+        print species_list
         for name in species:
             print name
 
@@ -147,7 +167,6 @@ class AT_Char_Spider_Detail(Spider):
         except IndexError:
             pass
         c.save()
-
 
 def char_detail():
     process = CrawlerProcess()
