@@ -2,26 +2,28 @@ from scrapy import Spider, Selector
 
 from at_api.models import Episode
 import django
+from datetime import date
 django.setup()
 
 
 def convert_to_utc(_str):
         months = {
-            "January": "01",
-            "February": "02",
-            "March": "03",
-            "April": "04",
-            "May": "05",
-            "June": "06",
-            "July": "07",
-            "August": "08",
-            "September": "09",
-            "October": "10",
-            "November": "11",
-            "December": "12"
+            "January": 1,
+            "February": 2,
+            "March": 3,
+            "April": 4,
+            "May": 5,
+            "June": 6,
+            "July": 7,
+            "August": 8,
+            "September": 9,
+            "October": 10,
+            "November": 11,
+            "December": 12
         }
         date_list = _str.split(" ")
-        return "{0}-{1}-{2}".format(date_list[2], months[date_list[0]], date_list[1][:-1])
+        return date(int(date_list[2]), months[date_list[0]], int(date_list[1][:-1]))
+        # return "{0}-{1}-{2}".format(date_list[2], months[date_list[0]], date_list[1][:-1])
 
 
 class AT_Episode_Detail_Spider(Spider):
@@ -38,15 +40,13 @@ class AT_Episode_Detail_Spider(Spider):
     ]
     # start_urls = [url.strip() for url in characters.readlines()]
 
-
-
     def parse(self, response):
         sel = Selector(response)
         data = sel.xpath("//table[@class='infobox']")
-        name = sel.xpath("//header[@id='WikiaPageHeader']//h1/text()").extract()[0].strip()
+        title = sel.xpath("//header[@id='WikiaPageHeader']//h1/text()").extract()[0].strip()
         print "===================NAME======================"
-        name = name.replace(" (episode)", "")
-        print name
+        title = title.replace(" (episode)", "")
+        print title
 
         season_episode_str = data.xpath("normalize-space(tr[2]/td[1]/text())").extract()[0]
         season_id = season_episode_str.split("Season ", 1)[1].rpartition(",")[0]
@@ -64,6 +64,7 @@ class AT_Episode_Detail_Spider(Spider):
         print title_card
         print production_code
         print air_date
+        print air_date_utc
         print characters
 
 

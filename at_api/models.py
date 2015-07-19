@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -5,8 +6,14 @@ from django.utils.encoding import python_2_unicode_compatible
 class Episode(models.Model):
     title = models.CharField(max_length=80)
     description = models.TextField(blank=True)
-    season_number = models.PositiveSmallIntegerField(blank=True, null=True)
-    episode_number = models.PositiveSmallIntegerField(blank=True, null=True)
+    season_id = models.PositiveSmallIntegerField(blank=True, null=True)
+    episode_id = models.PositiveSmallIntegerField(blank=True, null=True)
+    title_card = models.URLField(blank=True)
+    production_code = models.CharField(max_length=10)
+    air_date = models.CharField(max_length=20)
+    air_date_utc = models.DateField()
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return u"{}".format(self.title)
@@ -15,6 +22,8 @@ class Episode(models.Model):
 class Species(models.Model):
     name = models.CharField(max_length=120)
     note = models.CharField(max_length=120, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return u"{}".format(self.name)
@@ -23,6 +32,8 @@ class Species(models.Model):
 class Occupation(models.Model):
     title = models.CharField(max_length=120)
     episode = models.ManyToManyField(Episode, related_name="occupations", blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return u"{}".format(self.title)
@@ -38,6 +49,8 @@ class Character(models.Model):
     species = models.ManyToManyField(Species, related_name="characters", blank=True)
     relatives_many = models.ManyToManyField('self', related_name="characters", blank=True)
     occupation = models.ManyToManyField(Occupation, related_name="characters", blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return u"{}".format(self.name)
