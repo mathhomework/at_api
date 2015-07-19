@@ -142,6 +142,7 @@ class AT_Char_Spider_Detail(Spider):
             c.relatives_many.add(r)
 
         link = response.request.url
+        print relatives
         print link
         c.link = link
         # print "*************appearances*********"
