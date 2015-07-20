@@ -48,7 +48,7 @@ class AT_Episode_Detail_Spider(Spider):
     name = "ep_detail"
     episodes = open("episodes.txt")
     allowed_domains = ["adventuretime.wikia.com"]
-    start_urls = [
+    # start_urls = [
     #     "http://adventuretime.wikia.com/wiki/Animated_short",
     #     "http://adventuretime.wikia.com/wiki/Slumber_Party_Panic",
     #     "http://adventuretime.wikia.com/wiki/Jermaine_(episode)",
@@ -57,9 +57,9 @@ class AT_Episode_Detail_Spider(Spider):
     #     "http://adventuretime.wikia.com/wiki/Another_Five_More_Short_Graybles",
     #     "http://adventuretime.wikia.com/wiki/It_Came_from_the_Nightosphere",
     #     "http://adventuretime.wikia.com/wiki/Wizards_Only,_Fools",
-        "http://adventuretime.wikia.com/wiki/Hot_Diggity_Doom",
-    ]
-    # start_urls = [url.strip() for url in episodes.readlines()]
+    #     "http://adventuretime.wikia.com/wiki/Hot_Diggity_Doom",
+    # ]
+    start_urls = [url.strip() for url in episodes.readlines()]
 
     def parse(self, response):
         sel = Selector(response)
@@ -79,7 +79,6 @@ class AT_Episode_Detail_Spider(Spider):
         e, e_created = Episode.objects.get_or_create(title=title)
         e.season_id = season_id
         e.episode_id = episode_id
-        # e.production_code = production_code
         e.save()
 
         # Note for characters. Towards the end, there is /a[1].The [1] is there because I only want the first link.
@@ -125,16 +124,16 @@ class AT_Episode_Detail_Spider_2(Spider):
                     pass
                 else:
                     air_dates.append(el)
-        print air_dates
         air_dates_utc = [convert_to_utc(d) for d in air_dates]
         links = sel.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[2]/a/@href").extract()
         links = ["http://adventuretime.wikia.com"+link for link in links]
-        print air_dates_utc
-        zipped_data = zip(titles, title_cards, viewers, links, air_dates, air_dates_utc, production_codes)
+
+        descriptions = ["".join(row.xpath(".//text()[not(ancestor::sup)]").extract()).strip()
+                       for row in response.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[@colspan]")]
+        zipped_data = zip(titles, title_cards, viewers, links, air_dates, air_dates_utc, production_codes, descriptions)
 
         for ep in zipped_data:
-            print ep[0]
-            print ep[2]
+
             e, e_created = Episode.objects.get_or_create(title=ep[0])
             e.title_card = ep[1]
             e.viewers = ep[2]
@@ -142,16 +141,14 @@ class AT_Episode_Detail_Spider_2(Spider):
             e.air_date = ep[4]
             e.air_date_utc = ep[5]
             e.production_code = ep[6]
+            e.description = ep[7]
             e.save()
 
         # Pre SO
         # description = sel.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[@colspan='5']//text()").extract()
         # print description
 
-        # GOOD
-        # description = [" ".join(row.xpath(".//text()").extract())
-        #                for row in response.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[@colspan]")]
-        # print description
+
 
         # Messing around
         # for row in response.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[@colspan]"):
