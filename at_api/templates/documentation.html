@@ -19,7 +19,9 @@
 <div id="documentation-wrapper">
     <div class="content">
         <h1>Documentation</h1>
-        <p>This RESTful API is focused around Adventure Time's Characters and Episodes.</p>
+        <p>This RESTful API is focused around Adventure Time's Characters and Episodes.
+        Species and Occupations resources are also available, but they mainly exist to support
+        the Characters resource.</p>
 
         <h2>Authentication</h2>
         <p>No authentication is required for use. That being said, to prevent too many requests to handle, each user is throttled at a maximum of 1500 requests per day.</p>
@@ -391,8 +393,11 @@
                 {% endfor %}
             </tbody>
         </table>
+    <hr style="margin-top:2em;height:5px;border:none;color:black;background-color:black; ">
     </div>
+
 </div>
+
 
 {#<div class="pure-g">#}
 {#    <div class="pure-u-1/5">#}

@@ -40,22 +40,31 @@ def documentation(request):
     episodes_fields = OrderedDict([
         ('id', "Id given to this episode within this API's database"),
         ('title', "Title of episode"),
-        ('description', "Short tagline about episode"),
-        ('season_number', "Season number lol"),
-        ('episode_number', "Episode number within it's season")
+        ('season_id', "Season ID which this episode belongs to."),
+        ('episode_id', "Episode ID within it's season"),
+        ('description', "Short description of the episode"),
+        ('production_code', 'Production code'),
+        ('air_date', 'Air date'),
+        ('air_date_utc', 'Air date in UTC format'),
+        ('viewers', "Viewer by millions. Some episode's information may not have been announced yet."),
+        ('created', "UTC time in which this episode was created in the database"),
+        ('modified', "UTC time in which this episode was last updated in the database"),
+        ('characters', "List of character's major appearances in this episode"),
     ])
-
     query_parameters = OrderedDict([
         ('search', 'search={query}'),
         ('page_size', 'page_size={number}'),
         ('page', 'page={number}'),
+        ('season_id', 'season_id={number} Works only for the episodes resource. '
+                      'Get specific episodes using this in conjunction with the episodes_id parameter.'),
+        ('episode_id', 'episode_id={number} Works only for the episodes resource.'),
     ])
 
     search = OrderedDict([
         ('characters', 'name, full_name'),
         ('species', 'name'),
         ('occupations', 'title'),
-        ('episodes', 'name'),
+        ('episodes', 'title'),
     ])
     return render(request, "documentation.html", {
         'characters': characters_fields,

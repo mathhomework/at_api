@@ -35,6 +35,9 @@ class OccupationViewSet(viewsets.ModelViewSet):
 class EpisodeViewSet(viewsets.ModelViewSet):
     queryset = Episode.objects.all()
     serializer_class = EpisodeSerializer
-    search_fields = ('name',)
+    search_fields = ('title',)
     # later it would be nice to have a search filter that would return
     # results by season id and ep id.
+    # turning on the filter_backends with DjangoFilterBackend makes the additional search parameters really screwy
+    # filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('season_id', 'episode_id')

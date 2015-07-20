@@ -38,9 +38,9 @@ class AT_Char_Spider_Detail(Spider):
     name = "char_detail"
     allowed_domains = ["adventuretime.wikia.com"]
     characters = open("characters.txt")
-    start_urls = [
+    # start_urls = [
         # "http://adventuretime.wikia.com/wiki/Doctor_Princess",
-        "http://adventuretime.wikia.com/wiki/Finn",
+        # "http://adventuretime.wikia.com/wiki/Finn",
         # "http://adventuretime.wikia.com/wiki/T.V.",
         # "http://adventuretime.wikia.com/wiki/Jay_%26_Bonnie",
         # "http://adventuretime.wikia.com/wiki/Booger",
@@ -55,8 +55,8 @@ class AT_Char_Spider_Detail(Spider):
         # "http://adventuretime.wikia.com/wiki/Lich_King",
         # "http://adventuretime.wikia.com/wiki/Greed_Lard",
         # "http://adventuretime.wikia.com/wiki/Jake_Jr.",
-    ]
-    # start_urls = [url.strip() for url in characters.readlines()]
+    # ]
+    start_urls = [url.strip() for url in characters.readlines()]
 
 
     def parse(self, response):
