@@ -45,11 +45,17 @@ def documentation(request):
         ('episode_number', "Episode number within it's season")
     ])
 
+    query_parameters = OrderedDict([
+        ('search', 'search={query}'),
+        ('page_size', 'page_size={number}'),
+        ('page', 'page={number}'),
+    ])
+
     search = OrderedDict([
         ('characters', 'name, full_name'),
         ('species', 'name'),
         ('occupations', 'title'),
-        ('episodes', 'names'),
+        ('episodes', 'name'),
     ])
     return render(request, "documentation.html", {
         'characters': characters_fields,
@@ -57,4 +63,5 @@ def documentation(request):
         'occupations': occupations_fields,
         'episodes': episodes_fields,
         'search': search,
+        'query_parameters': query_parameters,
     })

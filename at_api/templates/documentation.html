@@ -176,7 +176,30 @@
                 {% endfor %}
             </tbody>
         </table>
-        <h2>Search</h2>
+
+        <h2>Additional Query Parameters</h2>
+        <p>Attaching additional query parameters to your API call is very simple.
+        You need only attach /?{query parameter}={value} to the end of your url.
+        To use several query parameters together, add the next query parameter to
+            your first query parameter your url, but use /& instead of /?.</p>
+        <table class="fields-table">
+            <thead>
+                <tr>
+                    <th>Resource</th>
+                    <th>Search Query Field</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in query_parameters.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3 id="search">Search</h3>
         <p>Each resource has the ability for the optional search parameter by attaching /?search={query} to the end of a resource instead
         of /{id}. </p>
         <h4>Sample Request</h4>

@@ -169,6 +169,7 @@ class AT_Char_Spider_Detail(Spider):
             pass
         c.save()
 
+
 def char_detail():
     process = CrawlerProcess()
     process.crawl(AT_Char_Spider_Detail)

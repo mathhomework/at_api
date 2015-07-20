@@ -1,17 +1,18 @@
-from datetime import datetime
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 
 class Episode(models.Model):
     title = models.CharField(max_length=80)
+    link = models.URLField(blank=True)
     description = models.TextField(blank=True)
     season_id = models.PositiveSmallIntegerField(blank=True, null=True)
     episode_id = models.PositiveSmallIntegerField(blank=True, null=True)
     title_card = models.URLField(blank=True)
-    production_code = models.CharField(max_length=10)
-    air_date = models.CharField(max_length=20)
-    air_date_utc = models.DateField()
+    viewers = models.CharField(max_length=6, null=True, blank=True)
+    production_code = models.CharField(max_length=10, blank=True)
+    air_date = models.CharField(max_length=20, blank=True)
+    air_date_utc = models.DateField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

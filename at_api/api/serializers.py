@@ -90,7 +90,6 @@ class SpeciesSerializer(serializers.ModelSerializer):
 #         fields = ('name', 'character')
 
 
-
 class OccupationSerializer(serializers.ModelSerializer):
     characters = serializers.SerializerMethodField('get_the_characters')
 
@@ -114,7 +113,7 @@ class EpisodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Episode
         fields = ('id', 'title', 'season_id', 'episode_id', 'title_card', 'production_code', 'air_date', 'air_date_utc',
-                  'created', 'modified', 'characters')
+                  'viewers', 'created', 'modified', 'characters')
 
     def get_the_characters(self, episode):
         qs = episode.characters.all()
