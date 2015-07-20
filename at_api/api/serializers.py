@@ -111,7 +111,7 @@ class EpisodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Episode
-        fields = ('id', 'title', 'season_id', 'episode_id', 'title_card', 'description', 'production_code', 'air_date',
+        fields = ('id', 'title', 'season_id', 'episode_id', 'link', 'title_card', 'description', 'production_code', 'air_date',
                   'air_date_utc', 'viewers', 'created', 'modified', 'characters')
 
     def get_the_characters(self, episode):

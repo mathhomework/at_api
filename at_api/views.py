@@ -40,8 +40,10 @@ def documentation(request):
     episodes_fields = OrderedDict([
         ('id', "Id given to this episode within this API's database"),
         ('title', "Title of episode"),
-        ('season_id', "Season ID which this episode belongs to."),
+        ('season_id', "Season ID which this episode belongs to"),
         ('episode_id', "Episode ID within it's season"),
+        ('link', "Link to episode information on adventuretime.wikia.com"),
+        ('title_card', "Link to image of the episode's title card (Note: Dimensions will vary)"),
         ('description', "Short description of the episode"),
         ('production_code', 'Production code'),
         ('air_date', 'Air date'),

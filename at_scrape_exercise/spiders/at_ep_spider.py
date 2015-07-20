@@ -79,6 +79,7 @@ class AT_Episode_Detail_Spider(Spider):
         e, e_created = Episode.objects.get_or_create(title=title)
         e.season_id = season_id
         e.episode_id = episode_id
+        e.link = response.request.url
         e.save()
 
         # Note for characters. Towards the end, there is /a[1].The [1] is there because I only want the first link.
