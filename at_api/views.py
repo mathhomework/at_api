@@ -58,7 +58,7 @@ def documentation(request):
         ('page_size', 'page_size={number}'),
         ('page', 'page={number}'),
         ('season_id', 'season_id={number} Works only for the episodes resource. '
-                      'Get specific episodes using this in conjunction with the episodes_id parameter.'),
+                      'Get specific episodes using this in conjunction with the episode_id parameter.'),
         ('episode_id', 'episode_id={number} Works only for the episodes resource.'),
     ])
 

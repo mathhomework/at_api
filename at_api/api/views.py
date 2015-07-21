@@ -26,6 +26,7 @@ class SpeciesViewSet(viewsets.ModelViewSet):
     # search_fields = ('name',)
     filter_class = SpeciesFilter
 
+
 class OccupationViewSet(viewsets.ModelViewSet):
     queryset = Occupation.objects.all()
     serializer_class = OccupationSerializer

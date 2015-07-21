@@ -21,7 +21,7 @@
         <h1>Documentation</h1>
         <p>This RESTful API is focused around Adventure Time's Characters and Episodes.
         Species and Occupations resources are also available, but they mainly exist to support
-        the Characters resource.</p>
+        the Characters resource. API calls will return data in JSON format.</p>
 
         <h2>Authentication</h2>
         <p>No authentication is required for use. That being said, to prevent too many requests to handle, each user is throttled at a maximum of 1500 requests per day.</p>
@@ -29,48 +29,65 @@
         <h2>Characters</h2>
         <p>Characters contain the bulkiest of all the information</p>
         <h4>Sample Request</h4>
-        <p class="code-wrapper-top"> GET http://127.0.0.1:8000/api/v1/characters/45/</p>
+        <p class="code-wrapper-top"> GET http://127.0.0.1:8000/api/v1/characters/7/</p>
         <pre class="code-wrapper scrollable">
             <code class="code">
 {
-    id: 45,
-    name: "Ricardio",
-    full_name: "Ricardio the Heart Guy",
+    id: 7,
+    name: "Lumpy Space King",
+    full_name: "Lumpy Space King",
     sex: "Male",
-    link: "http://adventuretime.wikia.com/wiki/Ricardio",
-    image: "http://img3.wikia.nocookie.net/__cb20120908054951/adventuretimewithfinnandjake/images/b/bb/S4ricardio.png",
+    link: "http://adventuretime.wikia.com/wiki/Lumpy_Space_King",
+    image: "http://img3.wikia.nocookie.net/__cb20120918033037/adventuretimewithfinnandjake/images/1/13/Lumpy_Space_Parents.png",
     episode: [
         {
-            id: 10,
-            title: "Ricardio the Heart Guy"
+            id: 27,
+            title: "The Eyes"
         },
         {
-            id: 11,
-            title: "Lady & Peebles"
+            id: 56,
+            title: "The Monster"
         },
         {
-            id: 12,
-            title: "All the Little People"
+            id: 1,
+            title: "Trouble in Lumpy Space"
+        },
+        {
+            id: 18,
+            title: "The Duke"
+        },
+        {
+            id: 174,
+            title: "The Prince Who Wanted Everything"
         }
     ],
     species: [
         {
-            id: 11,
-            name: "Wizard"
-        },
-        {
-            id: 12,
-            name: "heart"
+            id: 38,
+            name: "Lumpy Space Person"
         }
     ],
     relatives_many: [
-
+        {
+            id: 3,
+            name: "Lumpy Space Princess"
+        },
+        {
+            id: 8,
+            name: "Lumpy Space Queen"
+        },
+        {
+            id: 406,
+            name: "Lumpy Space Prince"
+        }
     ],
     occupations: [
-
+        {
+            id: 57,
+            title: "King"
+        }
     ]
-}
-            </code>
+}            </code>
         </pre>
         <h3>Fields</h3>
         <table class="fields-table">
@@ -97,12 +114,112 @@
         <pre class="code-wrapper scrollable">
             <code class="code">
 {
-    "id": 1,
-    "name": "Humanoid",
-    "characters": [
+    id: 1,
+    name: "Humanoid",
+    characters: [
         {
-            "id": 46,
-            "name": "Doctor Princess"
+            id: 104,
+            name: "Penny"
+        },
+        {
+            id: 184,
+            name: "Kim"
+        },
+        {
+            id: 639,
+            name: "Sparkle's mother"
+        },
+        {
+            id: 662,
+            name: "Tonya"
+        },
+        {
+            id: 398,
+            name: "Abracadaniel"
+        },
+        {
+            id: 865,
+            name: "Bandito"
+        },
+        {
+            id: 451,
+            name: "Big Clown Nurse"
+        },
+        {
+            id: 877,
+            name: "Bugbear"
+        },
+        {
+            id: 219,
+            name: "Cobbler"
+        },
+        {
+            id: 108,
+            name: "Crossbow Guy"
+        },
+        {
+            id: 109,
+            name: "Cyclops"
+        },
+        {
+            id: 302,
+            name: "Doctor Princess"
+        },
+        {
+            id: 937,
+            name: "Sheriff"
+        },
+        {
+            id: 638,
+            name: "Sparkle"
+        },
+        {
+            id: 714,
+            name: "Slider Guys"
+        },
+        {
+            id: 663,
+            name: "Squeez-E-Mart boss"
+        },
+        {
+            id: 99,
+            name: "Tiffany"
+        },
+        {
+            id: 967,
+            name: "Unnamed Bath Boy Gang members"
+        },
+        {
+            id: 977,
+            name: "Wizard (character)"
+        },
+        {
+            id: 488,
+            name: "Family"
+        },
+        {
+            id: 222,
+            name: "Fine Lady"
+        },
+        {
+            id: 658,
+            name: "Gareth"
+        },
+        {
+            id: 442,
+            name: "Head Clown Nurse"
+        },
+        {
+            id: 1069,
+            name: "Lord Vandalstine"
+        },
+        {
+            id: 227,
+            name: "Muscle Princess"
+        },
+        {
+            id: 1097,
+            name: "Phlannel Boxingday"
         }
     ]
 }
@@ -132,12 +249,168 @@
         <pre class="code-wrapper scrollable">
             <code class="code">
 {
-    "id": 1,
-    "title": "Doctor M.D",
-    "characters": [
+    id: 1,
+    title: "Princess",
+    characters: [
         {
-            "id": 46,
-            "name": "Doctor Princess"
+            id: 3,
+            name: "Lumpy Space Princess"
+        },
+        {
+            id: 136,
+            name: "Old Lady Princess"
+        },
+        {
+            id: 229,
+            name: "Peanut Princess"
+        },
+        {
+            id: 233,
+            name: "Space Angel Princess"
+        },
+        {
+            id: 374,
+            name: "Breakfast Princess"
+        },
+        {
+            id: 453,
+            name: "Flame Princess"
+        },
+        {
+            id: 489,
+            name: "Elbow Princess"
+        },
+        {
+            id: 769,
+            name: "Strudel Princess"
+        },
+        {
+            id: 851,
+            name: "Acoustics Princess"
+        },
+        {
+            id: 854,
+            name: "Agent Princess"
+        },
+        {
+            id: 224,
+            name: "Bee Princess"
+        },
+        {
+            id: 625,
+            name: "Bounce House Princess"
+        },
+        {
+            id: 876,
+            name: "Bruise Princess"
+        },
+        {
+            id: 916,
+            name: "Cotton Candy Princess"
+        },
+        {
+            id: 750,
+            name: "Crab Princess"
+        },
+        {
+            id: 923,
+            name: "Desert Princess"
+        },
+        {
+            id: 232,
+            name: "Skeleton Princess"
+        },
+        {
+            id: 58,
+            name: "Slime Princess"
+        },
+        {
+            id: 375,
+            name: "Toast Princess"
+        },
+        {
+            id: 964,
+            name: "Truth Field Projection Princess"
+        },
+        {
+            id: 973,
+            name: "Water Princess"
+        },
+        {
+            id: 57,
+            name: "Wildberry Princess"
+        },
+        {
+            id: 82,
+            name: "Engagement Ring Princess"
+        },
+        {
+            id: 225,
+            name: "Embryo Princess"
+        },
+        {
+            id: 83,
+            name: "Emerald Princess"
+        },
+        {
+            id: 751,
+            name: "Frozen Yogurt Princess"
+        },
+        {
+            id: 1028,
+            name: "Ghost Princess 2"
+        },
+        {
+            id: 1029,
+            name: "Ghost Princess (character)"
+        },
+        {
+            id: 228,
+            name: "Gridface Princess"
+        },
+        {
+            id: 694,
+            name: "Blargetha"
+        },
+        {
+            id: 5,
+            name: "Hot Dog Princess"
+        },
+        {
+            id: 226,
+            name: "Jungle Princess"
+        },
+        {
+            id: 1065,
+            name: "Lamprey Princess"
+        },
+        {
+            id: 1066,
+            name: "Laurel Princess"
+        },
+        {
+            id: 749,
+            name: "Lizard Princess"
+        },
+        {
+            id: 1090,
+            name: "Painting Princess"
+        },
+        {
+            id: 301,
+            name: "Princess Beautiful"
+        },
+        {
+            id: 1105,
+            name: "Princess Chewypaste"
+        },
+        {
+            id: 230,
+            name: "Princess Princess Princess"
+        },
+        {
+            id: 231,
+            name: "Purple Princess"
         }
     ]
 }
@@ -162,6 +435,153 @@
 
         <h2>Episodes</h2>
         <p>Episode information!!! </p>
+        <h4>Sample Request</h4>
+        <p class="code-wrapper-top"> GET http://127.0.0.1:8000/api/v1/episodes/7/</p>
+        <pre class="code-wrapper scrollable">
+            <code class="code">
+{
+    id: 7,
+    title: "Ricardio the Heart Guy",
+    season_id: 1,
+    episode_id: 7,
+    link: "http://adventuretime.wikia.com/wiki/Ricardio_the_Heart_Guy",
+    title_card: "http://img4.wikia.nocookie.net/__cb20120211102505/adventuretimewithfinnandjake/images/b/b6/Titlecard_S1E7_ricardiotheheartguy.jpg",
+    description: "After saving Princess Bubblegum from the Ice King yet again she offers them a party, but during the party Finn grows jealous of a suspicious heart-shaped man that is wooing with Princesss Bubblegum and sets out to prove that he's evil.",
+    production_code: "692-007",
+    air_date: "April 26, 2010",
+    air_date_utc: "2010-04-26",
+    viewers: "1.91",
+    created: "2015-07-20T07:01:41.406890Z",
+    modified: "2015-07-20T07:02:02.517749Z",
+    characters: [
+        {
+            id: 1,
+            name: "Finn"
+        },
+        {
+            id: 2,
+            name: "Jake"
+        },
+        {
+            id: 4,
+            name: "Princess Bubblegum"
+        },
+        {
+            id: 65,
+            name: "Ice King"
+        },
+        {
+            id: 79,
+            name: "Ricardio"
+        },
+        {
+            id: 17,
+            name: "Candy People"
+        },
+        {
+            id: 80,
+            name: "Banana Guard"
+        },
+        {
+            id: 24,
+            name: "Pineapple Guy"
+        },
+        {
+            id: 81,
+            name: "Candy Magician"
+        },
+        {
+            id: 25,
+            name: "Banana Guy"
+        },
+        {
+            id: 18,
+            name: "Starchie"
+        },
+        {
+            id: 33,
+            name: "Lollipop Girl"
+        },
+        {
+            id: 23,
+            name: "Mr. Cupcake"
+        },
+        {
+            id: 35,
+            name: "Chocolate Bar Guy"
+        },
+        {
+            id: 36,
+            name: "Gingerbread Pen"
+        },
+        {
+            id: 37,
+            name: "Gingerbread Pat"
+        },
+        {
+            id: 38,
+            name: "Gingerbread Muto"
+        },
+        {
+            id: 40,
+            name: "Gumball Guardian"
+        },
+        {
+            id: 3,
+            name: "Lumpy Space Princess"
+        },
+        {
+            id: 5,
+            name: "Hot Dog Princess"
+        },
+        {
+            id: 57,
+            name: "Wildberry Princess"
+        },
+        {
+            id: 82,
+            name: "Engagement Ring Princess"
+        },
+        {
+            id: 83,
+            name: "Emerald Princess"
+        },
+        {
+            id: 31,
+            name: "Peppermint Butler"
+        },
+        {
+            id: 58,
+            name: "Slime Princess"
+        },
+        {
+            id: 14,
+            name: "Snail"
+        },
+        {
+            id: 151,
+            name: "Balloons"
+        },
+        {
+            id: 894,
+            name: "Candy Person 39"
+        },
+        {
+            id: 797,
+            name: "Starchy"
+        },
+        {
+            id: 534,
+            name: "Zanoits"
+        },
+        {
+            id: 1100,
+            name: "Plantoids"
+        }
+    ]
+}
+            </code>
+        </pre>
         <table class="fields-table">
             <thead>
                 <tr>
@@ -205,172 +625,73 @@
         <p>Each resource has the ability for the optional search parameter by attaching /?search={query} to the end of a resource instead
         of /{id}. </p>
         <h4>Sample Request</h4>
-        <p class="code-wrapper-top">GET http://127.0.0.1:8000/api/v1/characters/?search=jake</p>
+        <p class="code-wrapper-top">GET http://adventuretimeapi.co/api/v1/characters/?search=abraham</p>
         <pre class="code-wrapper scrollable">
             <code class="code">
 {
-    count: 2,
+    count: 1,
     next: null,
     previous: null,
     results: [
         {
-            id: 50,
-            name: "Jake",
-            full_name: "",
-            sex: "",
-            link: "",
-            image: "",
-            episode: [
-
-            ],
-            species: [
-
-            ],
-            relatives_many: [
-                {
-                    id: 49,
-                    name: "Jake Jr."
-                }
-            ],
-            occupations: [
-
-            ]
-        },
-        {
-            id: 49,
-            name: "Jake Jr.",
-            full_name: "Jake Jr.",
-            sex: "Female",
-            link: "http://adventuretime.wikia.com/wiki/Jake_Jr.",
-            image: "http://img4.wikia.nocookie.net/__cb20140326192238/adventuretimewithfinnandjake/images/a/aa/Jakejrnobackground_clipped_rev_1.png",
+            id: 66,
+            name: "Abraham Lincoln",
+            full_name: "Abraham Lincoln",
+            sex: "Male",
+            link: "http://adventuretime.wikia.com/wiki/Abe_Lincoln",
+            image: "http://img3.wikia.nocookie.net/__cb20120725234200/adventuretimewithfinnandjake/images/a/a4/Abraham_Lincoln.png",
             episode: [
                 {
-                    id: 3,
-                    title: "Jake the Dad"
-                },
-                {
-                    id: 6,
-                    title: "Time Sandwich"
-                },
-                {
-                    id: 7,
-                    title: "Apple Wedding"
-                },
-                {
-                    id: 8,
-                    title: "Ocarina"
-                },
-                {
-                    id: 59,
-                    title: "Another Five More Short Graybles"
-                },
-                {
-                    id: 128,
-                    title: "One Last Job"
-                }
-            ],
-            species: [
-                {
-                    id: 6,
-                    name: "1/2"
-                },
-                {
-                    id: 7,
-                    name: "Rainicorn"
-                },
-                {
-                    id: 8,
-                    name: "1/4"
+                    id: 5,
+                    title: "Animated short"
                 },
                 {
                     id: 9,
-                    name: "Dog"
+                    title: "Business Time"
                 },
                 {
-                    id: 10,
-                    name: "Shape-shifter"
+                    id: 34,
+                    title: "Crystals Have Power"
+                },
+                {
+                    id: 79,
+                    title: "Return to the Nightosphere"
+                },
+                {
+                    id: 93,
+                    title: "Sons of Mars"
+                },
+                {
+                    id: 119,
+                    title: "A Glitch is a Glitch"
+                },
+                {
+                    id: 140,
+                    title: "Box Prince"
+                },
+                {
+                    id: 194,
+                    title: "Orgalorg"
+                }
+            ],
+            species: [
+                {
+                    id: 3,
+                    name: "Human"
                 }
             ],
             relatives_many: [
-                {
-                    id: 50,
-                    name: "Jake"
-                },
-                {
-                    id: 51,
-                    name: "Lady Rainicorn"
-                },
-                {
-                    id: 52,
-                    name: "Joshua"
-                },
-                {
-                    id: 53,
-                    name: "Shape-shifter"
-                },
-                {
-                    id: 54,
-                    name: "Margaret"
-                },
-                {
-                    id: 55,
-                    name: "Bob Rainicorn"
-                },
-                {
-                    id: 56,
-                    name: "Ethel Rainicorn"
-                },
-                {
-                    id: 57,
-                    name: "Jermaine"
-                },
-                {
-                    id: 58,
-                    name: "Finn"
-                },
-                {
-                    id: 59,
-                    name: "Ignition Point"
-                },
-                {
-                    id: 60,
-                    name: "Charlie"
-                },
-                {
-                    id: 61,
-                    name: "Kim Kil Whan"
-                },
-                {
-                    id: 62,
-                    name: "Viola"
-                },
-                {
-                    id: 63,
-                    name: "T.V."
-                },
-                {
-                    id: 64,
-                    name: "Kim Kil Whan's Wife"
-                },
-                {
-                    id: 65,
-                    name: "Kim Kil Whan's Daughter"
-                },
-                {
-                    id: 66,
-                    name: "Jay & Bonnie"
-                },
-                {
-                    id: 67,
-                    name: "Pillow World"
-                },
-                {
-                    id: 68,
-                    name: "Roselinen"
-                }
+
             ],
             occupations: [
-
+                {
+                    id: 4,
+                    title: "Former King of Mars,"
+                },
+                {
+                    id: 5,
+                    title: "Former President of the United States"
+                }
             ]
         }
     ]
