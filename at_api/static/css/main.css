@@ -152,7 +152,7 @@ p{
 }
 
 
-.fields-table tbody tr td:first-child{
+.fields-table tbody tr td:not(:nth-child(3)){
     color: black;
     padding: .2em;
     padding-right: 2em;

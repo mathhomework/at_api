@@ -35,7 +35,7 @@ class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
         # exclude = ('relatives_many', 'episode', 'occupation', 'relatives')
-        fields = ('id', 'name', 'full_name', 'sex', 'link', 'image',  'episode', 'species', 'relatives_many','occupations',)
+        fields = ('id', 'name', 'full_name', 'sex', 'link', 'image', 'created', 'modified', 'episode', 'species', 'relatives_many', 'occupations',)
 
     def get_the_relatives(self, character):
         qs = character.relatives_many.all()
@@ -71,7 +71,7 @@ class SpeciesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Species
-        fields = ('id', 'name', 'characters')
+        fields = ('id', 'name', 'created', 'modified', 'characters')
 
     def get_the_characters(self, species):
         qs = species.characters.all()
@@ -95,7 +95,7 @@ class OccupationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Occupation
-        fields = ('id', 'title', 'characters')
+        fields = ('id', 'title', 'created', 'modified', 'characters')
 
     def get_the_characters(self, occupation):
         qs = occupation.characters.all()
