@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>
+        Adventure Time API | 500 Server Error
+    </title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Amaranth' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <style>
+        body{
+            font-size: 16px;
+            font-family: "Amaranth", Arial, sans-serif;
+            background: #200E1C url("../images/lemongrab_teeth.jpg") no-repeat center;
+        }
+        p{
+            font-family: "Roboto", Arial, sans-serif;
+        }
+
+        .home-menu ul{
+            float: right;
+        }
+
+
+        .pure-menu-list a{
+            color: white;
+        }
+
+        .pure-menu-heading{
+            text-transform: lowercase;
+            color: white;
+        }
+
+        .pure-menu-item a:hover{
+            transition: background-color 0.6s ease-in-out;
+        }
+
+        .home-menu{
+            padding: 0.5em;
+{#            background-color: #749DCC;#}
+{#            border-bottom: 6px solid #C99687;#}
+            font-weight:500;
+            font-size: 18px;
+        }
+
+        .error{
+            left: 0;
+            line-height: 200px;
+            margin: auto;
+{#            margin-top: -100px;#}
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align:center;
+
+        }
+
+        .error p, .error h1, .error h2 {
+            font-size: 4em;
+            color: white;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+        .error h3{
+            font-size 250%;
+            color: white;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+        <a class="pure-menu-heading" href="{% url 'home' %}">adventure time api</a>
+
+
+    </div>
+</div>
+<div class="error">
+    <h1>500 Server Error</h1>
+    <h3>Sorry, Adventure Time API is currently experiencing a server error. It'll be up again soon!</h3>
+</div>
+</body>
+
+</html>
