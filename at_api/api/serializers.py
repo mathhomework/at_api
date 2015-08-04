@@ -39,7 +39,6 @@ class CharacterSerializer(serializers.ModelSerializer):
 
     def get_the_relatives(self, character):
         qs = character.relatives_many.all()
-        print qs
         serializer = ChildCharacterSerializer(instance=qs,
                                               many=True,
                                               context=self.context)
@@ -75,7 +74,6 @@ class SpeciesSerializer(serializers.ModelSerializer):
 
     def get_the_characters(self, species):
         qs = species.characters.all()
-        print qs
         serializer = ChildCharacterSerializer(instance=qs,
                                               many=True,
                                               context=self.context)
@@ -99,7 +97,6 @@ class OccupationSerializer(serializers.ModelSerializer):
 
     def get_the_characters(self, occupation):
         qs = occupation.characters.all()
-        print qs
         serializer = ChildCharacterSerializer(instance=qs,
                                               many=True,
                                               context=self.context)
@@ -116,7 +113,6 @@ class EpisodeSerializer(serializers.ModelSerializer):
 
     def get_the_characters(self, episode):
         qs = episode.characters.all()
-        print qs
         serializer = ChildCharacterSerializer(instance=qs,
                                               many=True,
                                               context=self.context)
