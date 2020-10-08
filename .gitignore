@@ -1,9 +1,9 @@
-*.pyc
-
-settings.py
-
-*.json
-
-*~
-local_settings.py
+__pycache__/
+.DS_Store
 .idea/
+.static/
+.venv/
+*.json
+*.pyc
+*.sqlite3
+*~

@@ -82,7 +82,7 @@ class SpeciesSerializer(serializers.ModelSerializer):
 # the below worked at one point... until i updated the character model
 # class SpeciesSerializer(serializers.HyperlinkedModelSerializer):
 #     character = ChildCharacterSerializer(many=True, read_only=True)
-#     print character
+#     print(character)
 #     class Meta:
 #         model = Species
 #         fields = ('name', 'character')

@@ -1,44 +1,30 @@
-import django_filters
+# import django_filters
 from rest_framework import viewsets, filters
-from at_api.api.serializers import CharacterSerializer, SpeciesSerializer, OccupationSerializer, EpisodeSerializer
+
+from . import serializers
 from at_api.models import Character, Species, Occupation, Episode
-
-
-class SpeciesFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(name="name", lookup_type=("icontains"))
-
-    class Meta:
-        model = Species
-        fields = ['name']
 
 
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()
-    serializer_class = CharacterSerializer
-    # /characters/?search=finn
+    serializer_class = serializers.CharacterSerializer
     search_fields = ('name', 'full_name',)
 
 
 class SpeciesViewSet(viewsets.ModelViewSet):
     queryset = Species.objects.all()
-    serializer_class = SpeciesSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    # search_fields = ('name',)
-    filter_class = SpeciesFilter
+    serializer_class = serializers.SpeciesSerializer
+    search_fields = ('name',)
 
 
 class OccupationViewSet(viewsets.ModelViewSet):
     queryset = Occupation.objects.all()
-    serializer_class = OccupationSerializer
+    serializer_class = serializers.OccupationSerializer
     search_fields = ('title',)
 
 
 class EpisodeViewSet(viewsets.ModelViewSet):
     queryset = Episode.objects.all()
-    serializer_class = EpisodeSerializer
+    serializer_class = serializers.EpisodeSerializer
     search_fields = ('title',)
-    # later it would be nice to have a search filter that would return
-    # results by season id and ep id.
-    # turning on the filter_backends with DjangoFilterBackend makes the additional search parameters really screwy
-    # filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('season_id', 'episode_id')

@@ -6,7 +6,6 @@ import re
 from datetime import date
 django.setup()
 
-
 def convert_to_utc(_str):
         months = {
             "January": 1,
@@ -22,8 +21,8 @@ def convert_to_utc(_str):
             "November": 11,
             "December": 12
         }
-        print "++++++++++++++++"
-        print _str
+        print("++++++++++++++++")
+        print(_str)
         date_list = _str.replace(",", "").split(" ")
         return date(int(date_list[2]), months[date_list[0]], int(re.findall(r'\d+', date_list[1])[0]))
 
@@ -65,9 +64,9 @@ class AT_Episode_Detail_Spider(Spider):
         sel = Selector(response)
         data = sel.xpath("//table[@class='infobox']")
         title = sel.xpath("//header[@id='WikiaPageHeader']//h1/text()").extract()[0].strip()
-        print "===================NAME======================"
+        print("===================NAME======================")
         title = title.replace(" (episode)", "")
-        print title
+        print(title)
 
         season_episode_str = data.xpath("normalize-space(tr[2]/td[1]/text())").extract()[0]
         season_id = season_episode_str.split("Season ", 1)[1].rpartition(",")[0]
@@ -90,8 +89,8 @@ class AT_Episode_Detail_Spider(Spider):
         for char in characters:
             c, c_created = Character.objects.get_or_create(name=char)
             e.characters.add(c)
-        print title_card
-        print characters
+        print(title_card)
+        print(characters)
 
 
 class AT_Episode_Detail_Spider_2(Spider):
@@ -147,10 +146,10 @@ class AT_Episode_Detail_Spider_2(Spider):
 
         # Pre SO
         # description = sel.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[@colspan='5']//text()").extract()
-        # print description
+        # print(description)
 
 
 
         # Messing around
         # for row in response.xpath("//table[@class='wikitable'][position()>2]/tr[position()>1]/td[@colspan]"):
-        #     print row.xpath(".//text()").extract()
+        #     print(row.xpath(".//text()").extract())

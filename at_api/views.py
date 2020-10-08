@@ -1,15 +1,12 @@
 from collections import OrderedDict
-from django.shortcuts import render, render_to_response
-from at_api.models import Species
+from django.shortcuts import render
 
 
 def home(request):
     return render(request, "jake.html")
 
-
 def about(request):
     return render(request, "about.html")
-
 
 def documentation(request):
     characters_fields = OrderedDict([
