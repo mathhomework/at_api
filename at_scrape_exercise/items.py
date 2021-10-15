@@ -25,7 +25,6 @@ class AT_Char_Item(Item):
 # Exclude "Mentioned In" for "Episodes featured"
 
 
-
 class AT_Char_Detail_Item(Item):
     name = Field()
     sex = Field()

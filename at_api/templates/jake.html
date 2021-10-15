@@ -1,5 +1,6 @@
 {% extends 'base_template.html' %}
-{% load staticfiles %}
+{% load static %}
+
 <head>
 {% block head %}
     <link href="{% static 'css/jake.css' %}" rel="stylesheet" type="text/css">
@@ -19,7 +20,7 @@
 <div class="content-wrapper">
     <div class="content">
         This is an API created for the television show, Adventure Time.
-        <p class="code-wrapper-top" >Response for Finn http://adventuretimeapi.com/api/v1/characters/1/</p>
+        <p class="code-wrapper-top" >Response for Finn http://adventuretimeapi.com/api/characters/1/</p>
         <pre class="code-wrapper scrollable">
 
             <code class="code ">
